@@ -50,18 +50,21 @@ public class DemoApplication {
 	}
 
 	@GetMapping("actor/surname/{lastName}")
-	public Iterable<Actor> getActorsByLastName(@PathVariable("lastName") String lastName) {
-		return actorRepo.findByLastName(lastName);
+	public Set<ActorDTO> getActorsByLastName(@PathVariable("lastName") String lastName) {
+		Set<ActorDTO> actorDTOs = actorRepo.findByLastName(lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+		return actorDTOs;
 	}
 
 	@GetMapping("actor/firstName/{firstName}")
-	public Iterable<Actor> getActorsByFirstName(@PathVariable("firstName") String firstName) {
-		return actorRepo.findByFirstName(firstName);
+	public Set<ActorDTO> getActorsByFirstName(@PathVariable("firstName") String firstName) {
+		Set<ActorDTO> actorDTOs = actorRepo.findByFirstName(firstName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+		return actorDTOs;
 	}
 
 	@GetMapping("actor/{firstName}/{lastName}")
-	public Iterable<Actor> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
-		return actorRepo.findByFirstNameAndLastName(firstName, lastName);
+	public Set<ActorDTO> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
+		Set<ActorDTO> actorDTOs = actorRepo.findByFirstNameAndLastName(firstName, lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+		return actorDTOs;
 	}
 
 
