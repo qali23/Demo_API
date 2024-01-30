@@ -49,10 +49,21 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Actor not found"));
 	}
 
-	@GetMapping("actor/{lastName}/{firstName}")
+	@GetMapping("actor/surname/{lastName}")
+	public Iterable<Actor> getActorsByLastName(@PathVariable("lastName") String lastName) {
+		return actorRepo.findByLastName(lastName);
+	}
+
+	@GetMapping("actor/firstName/{firstName}")
+	public Iterable<Actor> getActorsByFirstName(@PathVariable("firstName") String firstName) {
+		return actorRepo.findByFirstName(firstName);
+	}
+
+	@GetMapping("actor/{firstName}/{lastName}")
 	public Iterable<Actor> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
 		return actorRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
+
 
 	@GetMapping("/allAddresses")
 	public Iterable<Address> getallAddresses(){
