@@ -27,11 +27,15 @@ public class DemoApplication {
 	@Autowired
 	private CustomerRepository customerRepo;
 
-	public DemoApplication(ActorRepository actorRepo, AddressRepository addressRepo, FilmRepository filmRepo, CustomerRepository customerRepo) {
+	@Autowired
+	private CategoryRepository categoryRepo;
+
+	public DemoApplication(ActorRepository actorRepo, AddressRepository addressRepo, FilmRepository filmRepo, CustomerRepository customerRepo, CategoryRepository categoryRepo) {
 		this.actorRepo = actorRepo;
 		this.addressRepo = addressRepo;
 		this.filmRepo = filmRepo;
 		this.customerRepo = customerRepo;
+		this.categoryRepo = categoryRepo;
 	}
 
 	public static void main(String[] args) {
@@ -51,20 +55,17 @@ public class DemoApplication {
 
 	@GetMapping("actor/surname/{lastName}")
 	public Set<ActorDTO> getActorsByLastName(@PathVariable("lastName") String lastName) {
-		Set<ActorDTO> actorDTOs = actorRepo.findByLastName(lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
-		return actorDTOs;
+        return actorRepo.findByLastName(lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
 	}
 
 	@GetMapping("actor/firstName/{firstName}")
 	public Set<ActorDTO> getActorsByFirstName(@PathVariable("firstName") String firstName) {
-		Set<ActorDTO> actorDTOs = actorRepo.findByFirstName(firstName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
-		return actorDTOs;
+        return actorRepo.findByFirstName(firstName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
 	}
 
 	@GetMapping("actor/{firstName}/{lastName}")
 	public Set<ActorDTO> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
-		Set<ActorDTO> actorDTOs = actorRepo.findByFirstNameAndLastName(firstName, lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
-		return actorDTOs;
+        return actorRepo.findByFirstNameAndLastName(firstName, lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
 	}
 
 
@@ -96,8 +97,7 @@ public class DemoApplication {
 		Film film = filmRepo.findById(filmID).
 				orElseThrow(() -> new ResourceAccessException("Film not found"));
 
-		Set<ActorDTO> actorDTOs = film.getActorsInFilm().stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
-		return actorDTOs;
+        return film.getActorsInFilm().stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
 	}
 
 	@GetMapping("/allCustomers")
@@ -110,4 +110,17 @@ public class DemoApplication {
 		return customerRepo.findById(customerID).
 				orElseThrow(() -> new ResourceAccessException("Customer not found"));
 	}
+
+	@GetMapping("/allCategories")
+	public Iterable<Category> getallCategories(){
+		return categoryRepo.findAll();
+	}
+
+	@GetMapping("category/{id}")
+	public Category getCategoryByID(@PathVariable("id") int categoryID){
+		return categoryRepo.findById(categoryID).
+				orElseThrow(() -> new ResourceAccessException("Category not found"));
+	}
+
+
 }
