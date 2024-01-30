@@ -49,6 +49,11 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Actor not found"));
 	}
 
+	@GetMapping("actor/{lastName}/{firstName}")
+	public Iterable<Actor> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
+		return actorRepo.findByFirstNameAndLastName(firstName, lastName);
+	}
+
 	@GetMapping("/allAddresses")
 	public Iterable<Address> getallAddresses(){
 		return addressRepo.findAll();
@@ -59,6 +64,7 @@ public class DemoApplication {
 		return addressRepo.findById(addressID).
 				orElseThrow(() -> new ResourceAccessException("Address not found"));
 	}
+
 
 	@GetMapping("/allFilms")
 	public Iterable<Film> getallFilms(){
