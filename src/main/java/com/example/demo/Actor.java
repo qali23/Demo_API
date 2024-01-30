@@ -19,7 +19,7 @@ public class Actor {
             name = "film_actor",
             joinColumns = @JoinColumn(name = "actor_id"),
             inverseJoinColumns = @JoinColumn(name = "film_id"))
-    Set<Film> FilmsActedIn;
+    Set<Film> filmsActedIn;
 
     @Column(name = "first_name")
     private String firstName;
@@ -32,17 +32,17 @@ public class Actor {
 
     public Actor(int actorID, Set<Film> filmsActedIn, String firstName, String lastName) {
         this.actorID = actorID;
-        FilmsActedIn = filmsActedIn;
+        this.filmsActedIn = filmsActedIn;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
     public Set<Film> getFilmsActedIn() {
-        return FilmsActedIn;
+        return this.filmsActedIn;
     }
 
     public void setFilmsActedIn(Set<Film> filmsActedIn) {
-        FilmsActedIn = filmsActedIn;
+        this.filmsActedIn = filmsActedIn;
     }
 
     public void setLastName(String lastName) {

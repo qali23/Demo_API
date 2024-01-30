@@ -16,15 +16,23 @@ public class Film {
     private int filmID;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "FilmsActedIn")
+    @ManyToMany(mappedBy = "filmsActedIn")
     Set<Actor> actorsInFilm;
+
+    @ManyToMany
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    Set<Category> categoriesOfFilm;
 
     @Column(name = "title")
     private String title;
 
-    public Film(int filmID, Set<Actor> actorsInFilm, String title) {
+    public Film(int filmID, Set<Actor> actorsInFilm, Set<Category> categoriesOfFilm, String title) {
         this.filmID = filmID;
         this.actorsInFilm = actorsInFilm;
+        this.categoriesOfFilm = categoriesOfFilm;
         this.title = title;
     }
 

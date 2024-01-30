@@ -122,5 +122,13 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Category not found"));
 	}
 
+	@GetMapping("/allFilms_for_category/{id}")
+	public Set<FilmDTO> getAllFilms_Category(@PathVariable("id") int categoryID){
+		Category category = categoryRepo.findById(categoryID).
+				orElseThrow(() -> new ResourceAccessException("Film not found"));
+
+		return category.getFilmsForCategory().stream().map(film -> new FilmDTO(film.getFilmID(), film.getTitle())).collect(Collectors.toSet());
+	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -14,8 +15,20 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryID;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categoriesOfFilm")
+    Set<Film> filmsForCategory;
+
     @Column(name = "name")
     private String name;
+
+    public Set<Film> getFilmsForCategory() {
+        return filmsForCategory;
+    }
+
+    public void setFilmsForCategory(Set<Film> filmsForCategory) {
+        this.filmsForCategory = filmsForCategory;
+    }
 
     public int getCategoryID() {
         return categoryID;
@@ -36,8 +49,9 @@ public class Category {
     public Category() {
     }
 
-    public Category(int categoryID, String name) {
+    public Category(int categoryID, Set<Film> filmsForCategory, String name) {
         this.categoryID = categoryID;
+        this.filmsForCategory = filmsForCategory;
         this.name = name;
     }
 }
