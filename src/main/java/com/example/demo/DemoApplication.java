@@ -24,10 +24,14 @@ public class DemoApplication {
 	@Autowired
 	private FilmRepository filmRepo;
 
-	public DemoApplication(ActorRepository actorRepo, AddressRepository addressRepo, FilmRepository filmRepo) {
+	@Autowired
+	private CustomerRepository customerRepo;
+
+	public DemoApplication(ActorRepository actorRepo, AddressRepository addressRepo, FilmRepository filmRepo, CustomerRepository customerRepo) {
 		this.actorRepo = actorRepo;
 		this.addressRepo = addressRepo;
 		this.filmRepo = filmRepo;
+		this.customerRepo = customerRepo;
 	}
 
 	public static void main(String[] args) {
@@ -61,7 +65,6 @@ public class DemoApplication {
 		return filmRepo.findAll();
 	}
 
-
 	@GetMapping("film/{id}")
 	public Film getFilmByID(@PathVariable("id") int filmID){
 		return filmRepo.findById(filmID).
@@ -77,4 +80,14 @@ public class DemoApplication {
 		return actorDTOs;
 	}
 
+	@GetMapping("/allCustomers")
+	public Iterable<Customer> getAllCustomers(){
+		return customerRepo.findAll();
+	}
+
+	@GetMapping("customer/{id}")
+	public Customer getCustomerByID(@PathVariable("id") int customerID){
+		return customerRepo.findById(customerID).
+				orElseThrow(() -> new ResourceAccessException("Customer not found"));
+	}
 }
