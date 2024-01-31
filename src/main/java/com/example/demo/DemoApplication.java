@@ -3,6 +3,7 @@ package com.example.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -53,6 +54,9 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Actor not found"));
 	}
 
+
+
+	//------------------------------------------Actors--------------------------------------------
 	@GetMapping("actor/surname/{lastName}")
 	public Set<ActorDTO> getActorsByLastName(@PathVariable("lastName") String lastName) {
         return actorRepo.findByLastName(lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
@@ -68,7 +72,20 @@ public class DemoApplication {
         return actorRepo.findByFirstNameAndLastName(firstName, lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
 	}
 
+	@PostMapping("/addActor")
+	public ResponseEntity<String> addActor(@RequestBody Actor actor) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
 
+		actorRepo.save(actor);
+
+		// Return a response indicating success
+		return ResponseEntity.ok("Actor added successfully");
+	}
+
+
+
+	//------------------------------------Addresses------------------------------------------------
 	@GetMapping("/allAddresses")
 	public Iterable<Address> getallAddresses(){
 		return addressRepo.findAll();
@@ -81,6 +98,7 @@ public class DemoApplication {
 	}
 
 
+	//-------------------------------------------Films----------------------------------------------
 	@GetMapping("/allFilms")
 	public Iterable<Film> getallFilms(){
 		return filmRepo.findAll();
@@ -100,6 +118,19 @@ public class DemoApplication {
         return film.getActorsInFilm().stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
 	}
 
+	@PostMapping("/addFilm")
+	public ResponseEntity<String> addFilm(@RequestBody Film film) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
+
+		filmRepo.save(film);
+
+		// Return a response indicating success
+		return ResponseEntity.ok("Film added successfully");
+	}
+
+
+	//---------------------------------------Customers---------------------------------------------
 	@GetMapping("/allCustomers")
 	public Iterable<Customer> getAllCustomers(){
 		return customerRepo.findAll();
@@ -111,6 +142,8 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Customer not found"));
 	}
 
+
+	//------------------------------------Categories-----------------------------------------------
 	@GetMapping("/allCategories")
 	public Iterable<Category> getallCategories(){
 		return categoryRepo.findAll();
@@ -128,6 +161,17 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Film not found"));
 
 		return category.getFilmsForCategory().stream().map(film -> new FilmDTO(film.getFilmID(), film.getTitle())).collect(Collectors.toSet());
+	}
+
+	@PostMapping("/addCategory")
+	public ResponseEntity<String> addCategory(@RequestBody Category category) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
+
+		categoryRepo.save(category);
+
+		// Return a response indicating success
+		return ResponseEntity.ok("Film added successfully");
 	}
 
 

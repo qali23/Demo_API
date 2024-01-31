@@ -29,15 +29,48 @@ public class Film {
     @Column(name = "title")
     private String title;
 
-    public Film(int filmID, Set<Actor> actorsInFilm, Set<Category> categoriesOfFilm, String title) {
+    @Column(name = "language_id")
+    private int language_id;
+
+    @Column(name = "description")
+    private String description;
+
+    public Film() {
+    }
+
+    public Film(int filmID, Set<Actor> actorsInFilm, Set<Category> categoriesOfFilm, String title, int language_id, String description) {
         this.filmID = filmID;
         this.actorsInFilm = actorsInFilm;
         this.categoriesOfFilm = categoriesOfFilm;
         this.title = title;
+        this.language_id = language_id;
+        this.description = description;
     }
 
-    public Film() {
+    public String getDescription() {
+        return description;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Category> getCategoriesOfFilm() {
+        return categoriesOfFilm;
+    }
+
+    public void setCategoriesOfFilm(Set<Category> categoriesOfFilm) {
+        this.categoriesOfFilm = categoriesOfFilm;
+    }
+
+    public int getLanguage_id() {
+        return language_id;
+    }
+
+    public void setLanguage_id(int language_id) {
+        this.language_id = language_id;
+    }
+
 
     public Set<Actor> getActorsInFilm() {
         return actorsInFilm;
