@@ -15,18 +15,25 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryID;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "categoriesOfFilm")
-    Set<Film> filmsForCategory;
+    @ManyToMany
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id"))
+    Set<PartialFilm> filmsForCategory;
 
     @Column(name = "name")
     private String name;
 
-    public Set<Film> getFilmsForCategory() {
+    public Set<PartialFilm> getFilmsForCategory() {
         return filmsForCategory;
     }
 
-    public void setFilmsForCategory(Set<Film> filmsForCategory) {
+    public void addFilmForCategory(PartialFilm film){
+        this.filmsForCategory.add(film);
+    }
+
+    public void setFilmsForCategory(Set<PartialFilm> filmsForCategory) {
         this.filmsForCategory = filmsForCategory;
     }
 
@@ -49,7 +56,7 @@ public class Category {
     public Category() {
     }
 
-    public Category(int categoryID, Set<Film> filmsForCategory, String name) {
+    public Category(int categoryID, Set<PartialFilm> filmsForCategory, String name) {
         this.categoryID = categoryID;
         this.filmsForCategory = filmsForCategory;
         this.name = name;

@@ -15,16 +15,19 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int filmID;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "filmsActedIn")
-    Set<Actor> actorsInFilm;
+    @ManyToMany
+    @JoinTable(
+            name = "film_actor",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    Set<PartialActor> actorsInFilm;
 
     @ManyToMany
     @JoinTable(
             name = "film_category",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    Set<Category> categoriesOfFilm;
+    Set<PartialCategory> categoriesOfFilm;
 
     @Column(name = "title")
     private String title;
@@ -38,7 +41,7 @@ public class Film {
     public Film() {
     }
 
-    public Film(int filmID, Set<Actor> actorsInFilm, Set<Category> categoriesOfFilm, String title, int language_id, String description) {
+    public Film(int filmID, Set<PartialActor> actorsInFilm, Set<PartialCategory> categoriesOfFilm, String title, int language_id, String description) {
         this.filmID = filmID;
         this.actorsInFilm = actorsInFilm;
         this.categoriesOfFilm = categoriesOfFilm;
@@ -55,11 +58,11 @@ public class Film {
         this.description = description;
     }
 
-    public Set<Category> getCategoriesOfFilm() {
+    public Set<PartialCategory> getCategoriesOfFilm() {
         return categoriesOfFilm;
     }
 
-    public void setCategoriesOfFilm(Set<Category> categoriesOfFilm) {
+    public void setCategoriesOfFilm(Set<PartialCategory> categoriesOfFilm) {
         this.categoriesOfFilm = categoriesOfFilm;
     }
 
@@ -72,11 +75,11 @@ public class Film {
     }
 
 
-    public Set<Actor> getActorsInFilm() {
+    public Set<PartialActor> getActorsInFilm() {
         return actorsInFilm;
     }
 
-    public void setActorsInFilm(Set<Actor> actorsInFilm) {
+    public void setActorsInFilm(Set<PartialActor> actorsInFilm) {
         this.actorsInFilm = actorsInFilm;
     }
 

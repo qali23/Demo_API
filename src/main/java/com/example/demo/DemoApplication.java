@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,18 +19,24 @@ public class DemoApplication {
 
 	@Autowired
 	private ActorRepository actorRepo;
+	@Autowired
+	private PartialActorRepository partialActorRepo;
 
 	@Autowired
 	private AddressRepository addressRepo;
 
 	@Autowired
 	private FilmRepository filmRepo;
+	@Autowired
+	private PartialFilmRepository partialFilmRepo;
 
 	@Autowired
 	private CustomerRepository customerRepo;
 
 	@Autowired
 	private CategoryRepository categoryRepo;
+	@Autowired
+	private PartialCategoryRepository partialCateegoryRepo;
 
 	public DemoApplication(ActorRepository actorRepo, AddressRepository addressRepo, FilmRepository filmRepo, CustomerRepository customerRepo, CategoryRepository categoryRepo) {
 		this.actorRepo = actorRepo;
@@ -43,6 +50,8 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	//------------------------------------------Actors--------------------------------------------
+
 	@GetMapping("/allActors")
 	public Iterable<Actor> getallActors(){
 		return actorRepo.findAll();
@@ -54,22 +63,19 @@ public class DemoApplication {
 				orElseThrow(() -> new ResourceAccessException("Actor not found"));
 	}
 
-
-
-	//------------------------------------------Actors--------------------------------------------
 	@GetMapping("actor/surname/{lastName}")
-	public Set<ActorDTO> getActorsByLastName(@PathVariable("lastName") String lastName) {
-        return actorRepo.findByLastName(lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+	public List<PartialActor> getActorsByLastName(@PathVariable("lastName") String lastName) {
+        return partialActorRepo.findByLastName(lastName);
 	}
 
 	@GetMapping("actor/firstName/{firstName}")
-	public Set<ActorDTO> getActorsByFirstName(@PathVariable("firstName") String firstName) {
-        return actorRepo.findByFirstName(firstName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+	public List<PartialActor> getActorsByFirstName(@PathVariable("firstName") String firstName) {
+        return partialActorRepo.findByFirstName(firstName);
 	}
 
 	@GetMapping("actor/{firstName}/{lastName}")
-	public Set<ActorDTO> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
-        return actorRepo.findByFirstNameAndLastName(firstName, lastName).stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+	public List<PartialActor> getActorByName(@PathVariable("lastName") String lastName, @PathVariable("firstName") String firstName){
+        return partialActorRepo.findByFirstNameAndLastName(firstName, lastName);
 	}
 
 	@PostMapping("/addActor")
@@ -111,12 +117,12 @@ public class DemoApplication {
 	}
 
 	@GetMapping("/allActors_for_film/{id}")
-	public Set<ActorDTO> getAllActors_Film(@PathVariable("id") int filmID){
+	public Set<PartialActor> getAllActors_Film(@PathVariable("id") int filmID){
 		Film film = filmRepo.findById(filmID).
 				orElseThrow(() -> new ResourceAccessException("Film not found"));
-
-        return film.getActorsInFilm().stream().map(actor -> new ActorDTO(actor.getActorID(), actor.getFirstName(), actor.getLastName())).collect(Collectors.toSet());
+        return film.getActorsInFilm();
 	}
+
 
 	@PostMapping("/addFilm")
 	public ResponseEntity<String> addFilm(@RequestBody Film film) {
@@ -156,11 +162,10 @@ public class DemoApplication {
 	}
 
 	@GetMapping("/allFilms_for_category/{id}")
-	public Set<FilmDTO> getAllFilms_Category(@PathVariable("id") int categoryID){
+	public Category getAllFilms_Category(@PathVariable("id") int categoryID){
 		Category category = categoryRepo.findById(categoryID).
-				orElseThrow(() -> new ResourceAccessException("Film not found"));
-
-		return category.getFilmsForCategory().stream().map(film -> new FilmDTO(film.getFilmID(), film.getTitle())).collect(Collectors.toSet());
+				orElseThrow(() -> new ResourceAccessException("Category not found"));
+		return category;
 	}
 
 	@PostMapping("/addCategory")
@@ -173,6 +178,23 @@ public class DemoApplication {
 		// Return a response indicating success
 		return ResponseEntity.ok("Film added successfully");
 	}
+
+
+
+//	@PostMapping("/addFilmToCategory/{id1}/{id2}")
+//	public Category addFilmToCategory(@PathVariable("id1") int categoryID, @PathVariable("id2") int filmID) {
+//		// Perform logic to add actor to the repository
+//		// You can also perform validation and error handling here
+//		Category category = categoryRepo.findById(categoryID).
+//				orElseThrow(() -> new ResourceAccessException("Category not found"));
+//
+//		Film film = filmRepo.findById(filmID).
+//				orElseThrow(() -> new ResourceAccessException("Film not found"));
+//		category.addFilmForCategory(film);
+//
+//		// Return a response indicating success
+//		return category;
+//	}
 
 
 }
