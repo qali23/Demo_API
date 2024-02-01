@@ -29,8 +29,11 @@ public class Category {
         return filmsForCategory;
     }
 
+
     public void addFilmForCategory(PartialFilm film){
-        this.filmsForCategory.add(film);
+        if (!this.filmsForCategory.contains(film)) {
+            this.filmsForCategory.add(film);
+        }
     }
 
     public void setFilmsForCategory(Set<PartialFilm> filmsForCategory) {
