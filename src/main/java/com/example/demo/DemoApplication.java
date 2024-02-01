@@ -89,7 +89,21 @@ public class DemoApplication {
 		return ResponseEntity.ok("Actor added successfully");
 	}
 
+	@PostMapping("/addFilmToActor/{id1}/{id2}")
+	public Actor addFilmToActor(@PathVariable("id1") int actorID, @PathVariable("id2") int filmID) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
+		Actor actor = actorRepo.findById(actorID).
+				orElseThrow(() -> new ResourceAccessException("Category not found"));
 
+		PartialFilm film = partialFilmRepo.findById(filmID).
+				orElseThrow(() -> new ResourceAccessException("Film not found"));
+		actor.addFilmForActor(film);
+
+
+		// Return a response indicating success
+		return actorRepo.save(actor);
+	}
 
 	//------------------------------------Addresses------------------------------------------------
 	@GetMapping("/allAddresses")
@@ -133,6 +147,39 @@ public class DemoApplication {
 
 		// Return a response indicating success
 		return ResponseEntity.ok("Film added successfully");
+	}
+
+	@PostMapping("/addActorToFilm/{id1}/{id2}")
+	public Film addActorToFilm(@PathVariable("id1") int filmID, @PathVariable("id2") int actorID) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
+		Film film = filmRepo.findById(filmID).
+				orElseThrow(() -> new ResourceAccessException("Film not found"));
+
+		PartialActor actor = partialActorRepo.findById(actorID).
+				orElseThrow(() -> new ResourceAccessException("Category not found"));
+
+		film.addActorForFilm((actor));
+
+		// Return a response indicating success
+		return filmRepo.save(film);
+	}
+
+
+	@PostMapping("/addCategoryToFilm/{id1}/{id2}")
+	public Film addCategoryToFilm(@PathVariable("id1") int filmID, @PathVariable("id2") int categoryID) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
+		Film film = filmRepo.findById(filmID).
+				orElseThrow(() -> new ResourceAccessException("Film not found"));
+
+		PartialCategory category = partialCateegoryRepo.findById(categoryID).
+				orElseThrow(() -> new ResourceAccessException("Category not found"));
+
+		film.addCatgegoryForFilm(category);
+
+		// Return a response indicating success
+		return filmRepo.save(film);
 	}
 
 
@@ -180,21 +227,21 @@ public class DemoApplication {
 	}
 
 
+	@PostMapping("/addFilmToCategory/{id1}/{id2}")
+	public Category addFilmToCategory(@PathVariable("id1") int categoryID, @PathVariable("id2") int filmID) {
+		// Perform logic to add actor to the repository
+		// You can also perform validation and error handling here
+		Category category = categoryRepo.findById(categoryID).
+				orElseThrow(() -> new ResourceAccessException("Category not found"));
 
-//	@PostMapping("/addFilmToCategory/{id1}/{id2}")
-//	public Category addFilmToCategory(@PathVariable("id1") int categoryID, @PathVariable("id2") int filmID) {
-//		// Perform logic to add actor to the repository
-//		// You can also perform validation and error handling here
-//		Category category = categoryRepo.findById(categoryID).
-//				orElseThrow(() -> new ResourceAccessException("Category not found"));
-//
-//		Film film = filmRepo.findById(filmID).
-//				orElseThrow(() -> new ResourceAccessException("Film not found"));
-//		category.addFilmForCategory(film);
-//
-//		// Return a response indicating success
-//		return category;
-//	}
+		PartialFilm film = partialFilmRepo.findById(filmID).
+				orElseThrow(() -> new ResourceAccessException("Film not found"));
+		category.addFilmForCategory(film);
+
+
+		// Return a response indicating success
+		return categoryRepo.save(category);
+	}
 
 
 }

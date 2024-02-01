@@ -62,6 +62,14 @@ public class Film {
         return categoriesOfFilm;
     }
 
+    public void addActorForFilm(PartialActor actor){
+        this.actorsInFilm.add(actor);
+    }
+
+    public void addCatgegoryForFilm(PartialCategory category){
+        this.categoriesOfFilm.add(category);
+    }
+
     public void setCategoriesOfFilm(Set<PartialCategory> categoriesOfFilm) {
         this.categoriesOfFilm = categoriesOfFilm;
     }

@@ -45,6 +45,10 @@ public class Actor {
         this.filmsActedIn = filmsActedIn;
     }
 
+    public void addFilmForActor(PartialFilm film){
+        this.filmsActedIn.add(film);
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
