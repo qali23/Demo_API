@@ -89,6 +89,21 @@ public class DemoApplication {
 		return ResponseEntity.ok("Actor added successfully");
 	}
 
+	@DeleteMapping("/deleteActor")
+	public ResponseEntity<String> deleteActor(@RequestBody Actor actor) {
+		// Perform logic to delete actor to the repository
+		// You can also perform validation and error handling here
+
+		List<Actor> allFoundActor = actorRepo.findActorByFirstNameAndLastName(actor.getFirstName(), actor.getLastName());
+		if (!allFoundActor.isEmpty()){
+			actorRepo.delete(allFoundActor.get(0));
+		}
+		//actorRepo.delete( actorRepo.findActorByName(actor.getFirstName(), actor.getLastName()).get(0));
+
+		// Return a response indicating success
+		return ResponseEntity.ok("Actor deleted successfully");
+	}
+
 	@PostMapping("/addFilmToActor/{id1}/{id2}")
 	public Actor addFilmToActor(@PathVariable("id1") int actorID, @PathVariable("id2") int filmID) {
 		// Perform logic to add actor to the repository
@@ -104,6 +119,8 @@ public class DemoApplication {
 		// Return a response indicating success
 		return actorRepo.save(actor);
 	}
+
+
 
 	//------------------------------------Addresses------------------------------------------------
 	@GetMapping("/allAddresses")

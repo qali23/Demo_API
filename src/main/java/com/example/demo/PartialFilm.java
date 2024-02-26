@@ -30,6 +30,11 @@ public class PartialFilm {
         this.description = description;
     }
 
+    public PartialFilm(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
     public String getDescription() {
         return description;
     }

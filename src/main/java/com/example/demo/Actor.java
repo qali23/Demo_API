@@ -46,10 +46,7 @@ public class Actor {
     }
 
     public void addFilmForActor(PartialFilm film){
-        if (!this.filmsActedIn.contains(film)) {
-            this.filmsActedIn.add(film);
-        }
-
+        this.filmsActedIn.add(film);
     }
 
     public void setLastName(String lastName) {

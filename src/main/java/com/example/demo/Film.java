@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -50,6 +53,7 @@ public class Film {
         this.description = description;
     }
 
+
     public String getDescription() {
         return description;
     }
@@ -63,15 +67,11 @@ public class Film {
     }
 
     public void addActorForFilm(PartialActor actor) {
-        if (!this.actorsInFilm.contains(actor)) {
-            this.actorsInFilm.add(actor);
-        }
+        this.actorsInFilm.add(actor);
     }
 
     public void addCatgegoryForFilm(PartialCategory category){
-        if (!this.categoriesOfFilm.contains(category)) {
-            this.categoriesOfFilm.add(category);
-        }
+        this.categoriesOfFilm.add(category);
     }
 
     public void setCategoriesOfFilm(Set<PartialCategory> categoriesOfFilm) {

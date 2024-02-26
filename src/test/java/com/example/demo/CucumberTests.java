@@ -7,8 +7,7 @@ import io.cucumber.java.en.Then;
 
 import io.cucumber.java.en.When;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CucumberTests {
     //Actor Cucumber tests
@@ -62,5 +61,45 @@ public class CucumberTests {
     @Then("it should be null")
     public void itShouldBeNull() {
         assertNull(actor.getFilmsActedIn());
+    }
+
+
+    String newFirstName = "TIMOTHYYYYY";
+    String newLastName = "TELLTALE";
+    @And("the actor has a first and last name")
+    public void theActorHasAFirstAndLastName() {
+        actor.setFirstName(firstName);
+        actor.setLastName(lastName);
+        assertNotNull(actor.getFirstName());
+        assertNotNull(actor.getLastName());
+    }
+    @When("I change the first and last name of the actor")
+    public void iChangeTheFirstAndLastNameOfTheActor() {
+        actor.setFirstName(newFirstName);
+        actor.setLastName(newLastName);
+    }
+    @Then("the first and last name should read the updated names")
+    public void theFirstAndLastNameShouldReadTheUpdatedNames() {
+        assertEquals(actor.getFirstName(), newFirstName);
+        assertEquals(actor.getLastName(), newLastName);
+    }
+
+
+    @And("the actor has an ID")
+    public void theActorHasAnID() {
+        assertNotNull(actor.getActorID());
+    }
+
+    @When("I add a film to the actors list of films they have acted in")
+    public void iAddAFilmToTheActorsListOfFilmsTheyHaveActedIn() {
+        PartialFilm film = new PartialFilm();
+        film.setTitle("TIMOTHY AND STUFF");
+        film.setDescription("WHAT IS TIMOTHY DOING I DUNNO???");
+        actor.addFilmForActor(film);
+    }
+
+    @Then("the film should be added to the array")
+    public void theFilmShouldBeAddedToTheArray() {
+        assertNotNull(actor.getFilmsActedIn());
     }
 }
