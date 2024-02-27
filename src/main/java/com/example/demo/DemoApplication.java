@@ -166,6 +166,19 @@ public class DemoApplication {
 		return ResponseEntity.ok("Film added successfully");
 	}
 
+	@DeleteMapping("/deleteFilm")
+	public ResponseEntity<String> deleteFilm(@RequestBody Film film) {
+		// Perform logic to delete actor to the repository
+		// You can also perform validation and error handling here
+
+		List<Film> allFoundFilm = filmRepo.findFilmByTitle(film.getTitle());
+		if (!allFoundFilm.isEmpty()){
+			filmRepo.delete(allFoundFilm.get(0));
+		}
+		// Return a response indicating success
+		return ResponseEntity.ok("Film deleted successfully");
+	}
+
 	@PostMapping("/addActorToFilm/{id1}/{id2}")
 	public Film addActorToFilm(@PathVariable("id1") int filmID, @PathVariable("id2") int actorID) {
 		// Perform logic to add actor to the repository
