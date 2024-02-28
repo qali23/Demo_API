@@ -14,4 +14,4 @@ Feature: does a new Actor Initialise properly?
     Given a new actor has been made
     And no films have been added to the list of films that actor has acted in
     When I check the contents of the film array
-    Then it should be null
+    Then it should be empty

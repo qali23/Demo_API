@@ -2,14 +2,12 @@ package com.example.demo;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-
 import io.cucumber.java.en.Then;
-
 import io.cucumber.java.en.When;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CucumberTests {
+public class StepDefs {
     //Actor Cucumber tests
 
     private String firstName = "Henry";
@@ -58,9 +56,9 @@ public class CucumberTests {
     @When("I check the contents of the film array")
     public void iCheckTheContentsOfTheFilmArray() {
     }
-    @Then("it should be null")
-    public void itShouldBeNull() {
-        assertNull(actor.getFilmsActedIn());
+    @Then("it should be empty")
+    public void itShouldBeEmpty() {
+        assertTrue(actor.getFilmsActedIn().isEmpty());
     }
 
 

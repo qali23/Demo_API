@@ -3,6 +3,7 @@ package com.example.demo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +29,7 @@ public class Actor {
     private String lastName;
 
     public Actor() {
+        this.filmsActedIn = new HashSet<>();
     }
 
     public Actor(int actorID, Set<PartialFilm> filmsActedIn, String firstName, String lastName) {
